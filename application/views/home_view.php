@@ -12,7 +12,6 @@
 			echo form_open('Home/index');
 				echo form_submit('btnRegister','Register') . "<BR><BR>";
 				echo form_submit('btnLogin','Login');
-				echo form_input('dataUser', $dataUser);
 			echo form_close();
 		?>
 	</div>

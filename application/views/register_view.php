@@ -16,7 +16,6 @@
 					echo "Confirm Password : ".form_password('txtConfPassword',$password)."<br/>";
 					echo form_submit('btnRegister','Register')."<br/>";
 					echo form_submit('btnHome','Back to Home')."<br/>";
-					echo form_input('dataUser',$dataUser);
 					echo validation_errors();
 				echo form_close();
 			?>

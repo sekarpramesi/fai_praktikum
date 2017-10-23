@@ -13,7 +13,6 @@
 				echo "Username: " . form_input('txtUsername', $username) . "<br/>";
 				echo "Password : " . form_password('txtPassword', $password) . "<br/><br/>";
 				echo form_submit('btnLogin','Login');
-				echo form_input('dataUser', $dataUser);
 			echo form_close();
 			echo validation_errors();
 		?>
