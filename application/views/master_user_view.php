@@ -17,22 +17,28 @@
 				<th>Nama User</th>
 				<th>Email</th>
 				<th>Status</th>
+				<th>Credit</th>
 				<th>Action</th>
 			</tr>
-		<?php for($i=0;$i<count($barang);$i++){?>
+		<?php for($i=0;$i<count($user);$i++){?>
 			<tr>
 				<td><?php echo $user[$i]["USERNAME_USER"];?></td>
 				<td><?php echo $user[$i]["NAME_USER"];?></td>
 				<td><?php echo $user[$i]["EMAIL_USER"];?></td>
 				<td><?php echo $user[$i]["STATUS_USER"];?></td>
-				<?php echo form_open('Home/index');?>
-				<td><?php echo form_submit('btnToggle','Toggle Status');?></td>
+				<td><?php echo $user[$i]["CREDIT_USER"];?></td>
+				<?php echo form_open('Home/admin');?>
+				<td><?php echo form_submit('btnToggle','Toggle Status');?>
+					<?php echo form_submit('btnCredit','Add Credit');?>
 					<?php echo form_hidden('idUser',$user[$i]["ID_USER"]);?>
 					<?php echo form_hidden('statusUser',$user[$i]["STATUS_USER"]);?>
+				</td>
 				<?php echo form_close();?>
 			</tr>
 		<?php } ?>
 
+
 		</table>
+
 	</body>
 </html>

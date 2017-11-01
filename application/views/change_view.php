@@ -4,6 +4,15 @@
 	<body>
 		<h1><b>Change Password Page</b></h1>
 		<?php
+			echo form_open('Home/index');
+			echo form_hidden('nameUser',$user[0]['USERNAME_USER']);
+			echo form_hidden('idUser',$idUser);
+			echo form_hidden('nama',$user[0]['NAME_USER']);
+			echo form_submit('btnBackUser','Back');
+			echo "<br/> <br/>";
+			echo form_close();
+		?>
+		<?php
 			echo form_open('Home/changePassword');
 			echo form_hidden('idUser',$idUser);
 			echo form_hidden('nameUser',$nameUser);

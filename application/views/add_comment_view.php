@@ -4,10 +4,12 @@
 	<body>
 		<?php
 			echo form_open('Home/index');
-			echo"Selamat Datang ".$user[0]['NAME_USER']." ";
+			echo"Selamat Datang ".$user[0]['NAME_USER'];
 			echo form_hidden('nameUser',$user[0]['USERNAME_USER']);
-			echo form_hidden('idUser',$user[0]['ID_USER']);
+			echo form_hidden('idUser',$idUser);
+			echo form_hidden('nama',$user[0]['NAME_USER']);
 			echo form_submit('btnLogout','Log Out');
+			echo form_submit('btnBackUser','Back');
 			echo "<br/> <br/>";
 			echo form_close();
 		?>
@@ -15,12 +17,13 @@
 		<h2><b>Add comment for <?php echo $barang[0]['NAMA_BARANG'];?></b></h2>
 		<br>
 		<?php
-			echo form_open('Home/index');
+			echo form_open('Home/comment');
 			echo form_textarea('isiComment','Isi Comment','required');
 			echo "<br>";
 			echo form_hidden('idBarang',$barang[0]['ID_BARANG']);
-			echo form_hidden('idUser',$user[0]['ID_USER']);
-						echo form_hidden("jmlComment",count($comment));
+			echo form_hidden('idUser',$idUser);
+			echo form_hidden('nama',$user[0]['NAME_USER']);
+			echo form_hidden('nameUser',$user[0]['USERNAME_USER']);
 			echo form_submit('btnSendComment','Send');
 			echo form_close();
 		?>

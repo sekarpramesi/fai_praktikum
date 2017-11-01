@@ -13,8 +13,8 @@
 					echo "Username : ".form_input('txtUsername',$username)."<br/>";
 					echo "Email : ".form_input('txtEmail',$email)."<br/>";
 					echo "Password : ".form_password('txtPassword',$password)."<br/>";
-					echo "Confirm Password : ".form_password('txtConfPassword',$password)."<br/>";
-					echo form_submit('btnRegister','Register')."<br/>";
+					echo "Confirm Password : ".form_password('txtConfPassword',$confPassword)."<br/>";
+					echo form_submit('btnSendRegistration','Register')."<br/>";
 					echo form_submit('btnHome','Back to Home')."<br/>";
 					echo validation_errors();
 				echo form_close();
