@@ -4,6 +4,9 @@
 <head>
 	<meta charset="utf-8">
 	<title>Home</title>
+	<script>
+		$('form').attr('autocomplete', 'off');
+	</script>
 </head>
 <body>
 	<div id="container">

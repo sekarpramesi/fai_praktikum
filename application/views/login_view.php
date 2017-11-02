@@ -9,12 +9,14 @@
 	<div id="container">
 		LOG IN<HR>
 		<?php
+		$attribute=array('autocomplete'=>'off');
 			echo form_open('Home/login');
-				echo "Username: " . form_input('txtUsername', $username) . "<br/>";
-				echo "Password : " . form_password('txtPassword', $password) . "<br/><br/>";
+				echo "Username: " . form_input('txtUsername', $username,$attribute) . "<br/>";
+				echo "Password : " . form_password('txtPassword', $password,$attribute) . "<br/><br/>";
 				echo form_submit('btnLogin','Login');
+				echo form_submit('btnHome','Back to Home');
 			echo form_close();
-			echo validation_errors();
+			echo $this->session->flashdata('msg');
 		?>
 	</div>
 </body>

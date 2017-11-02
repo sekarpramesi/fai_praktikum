@@ -1,24 +1,36 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 <!DOCTYPE html>
 <html lang="en">
+<head>
+	<script type="text/javascript" src="http://localhost/6478/resources/jquery-3.2.1.js"></script>
+	<script type="text/javascript" src="http://localhost/6478/resources/jqueryui/jquery-ui.js"></script>
+<script type="text/javascript">
+	var items =[];  
+	items = <?php echo json_encode($this->session->userdata('searchItem'));?>;
+	$(document).ready(function() {
+	    //autocomplete
+	    $("#search").autocomplete({
+	        source: items,
+	        minLength: 3,
+	        delay: 0,
+	    });            
+
+	});
+</script>
+</head>
 	<body>
+		<div class="right">
 		<?php
-			echo form_open('Home/index');
+
+			echo form_open('User/index');
 			echo"Selamat Datang ".$user[0]['NAME_USER']." ";
-			echo form_hidden('nameUser',$user[0]['USERNAME_USER']);
-			echo form_hidden('idUser',$user[0]['ID_USER']);
-			echo form_hidden('nama',$user[0]['NAME_USER']);
 			echo form_submit('btnChangePassword','Change Password');
 			echo form_submit('btnLogout','Log Out');
-			echo form_close();
-			echo form_open('Home/contact');
-			echo form_hidden('nameUser',$user[0]['USERNAME_USER']);
-			echo form_hidden('idUser',$user[0]['ID_USER']);
-			echo form_hidden('nama',$user[0]['NAME_USER']);
 			echo form_submit('btnContactUs','Contact Us');
 			echo "<br/> <br/>";
 			echo form_close();
 		?>
+	</div>
 		<br>
 		<br>
 <h1><b>HOT ITEMS NOW!!</b></h1>
@@ -49,16 +61,16 @@
  	<br><br>
 		<h2><b>Etalase Barang</b></h2>
 		<br>
-		<?php
-			if($confirmation!=null){
-				echo "<hr>";
-				echo $confirmation;
-				echo "<hr>";
-			}
-		?>
+		<?php echo $this->session->flashdata('msg');?>
 		<br>
-		<?php echo form_open('Home/index');?>
-		Search Filter : <?php echo form_input('txtFilter','filter');?><?php echo form_submit('btnFilter','Filter');?>
+		<?php echo form_open('Barang/search');?>
+		Search : <?php
+		if($this->session->userdata('searchItem')!=""){
+			$attribute=array('id'=>'search','autocomplete'=>'off');
+		}else{
+			$attribute=array('autocomplete'=>'off');
+		}
+		 echo form_input('txtSearch','',$attribute);?><?php echo form_submit('btnSearch','Search');?>
 		<br>
 		<?php echo form_close();?>
 		<table border ='1'>
@@ -68,18 +80,20 @@
 				<th>Jumlah</th>
 				<th>Action</th>
 			</tr>
-		<?php for($i=0;$i<count($barang);$i++){?>
+		<?php
+			for($i=0;$i<count($barang);$i++){?>
 			<tr>
 				<td><?php echo $barang[$i]["NAMA_BARANG"];?></td>
 				<td><?php echo $barang[$i]["HARGA_BARANG"];?></td>
 				<td><?php echo $barang[$i]["JUMLAH_BARANG"];?></td>
 
-				<?php echo form_open('Home/comment');?>
-				<?php echo form_hidden('nameUser',$user[0]['USERNAME_USER']);?>
-				<?php echo form_hidden('idUser',$user[0]['ID_USER']);?>
-				<?php echo form_hidden('idBarang',$barang[$i]["ID_BARANG"]);?>
-				<?php echo form_hidden('nama',$user[0]['NAME_USER']);?>
-				<td><?php echo form_submit('btnAddComment','Add Comment');?></td>
+				<?php echo form_open('Comment/index');?>
+				<td><?php
+				echo form_hidden('idBarang',$barang[$i]['ID_BARANG']);
+				echo form_hidden('namaBarang',$barang[$i]['NAMA_BARANG']);
+				 echo form_submit('btnResetBarang','Reset');
+				 echo form_submit('btnAddComment','Add Comment');?>
+				 </td>
 				<?php echo form_close();?>
 			</tr>
 		<?php } ?>
