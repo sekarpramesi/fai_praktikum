@@ -1,16 +1,22 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 <!DOCTYPE html>
 <html lang="en">
+<head>
+		<link href="http://localhost/6478/resources/this.css" rel="stylesheet">
+</head>
 	<body>
-		<h1><b>Change Password Page</b></h1>
+
+			<div class="right">
 		<?php
 			echo form_open('User/index');
-			echo form_hidden('username',$user[0]['USERNAME_USER']);
-			echo form_hidden('name',$user[0]['NAME_USER']);
+			echo "Selamat Datang ".$user[0]['NAME_USER']."<br>";
+			echo form_submit('btnLogout','Log Out');
 			echo form_submit('btnBackUser','Back');
 			echo "<br/> <br/>";
 			echo form_close();
 		?>
+	</div>
+			<h1><b>Change Password Page</b></h1>
 		<?php
 		$attribute=array('autocomplete'=>'off');
 			echo form_open('User/changePassword');

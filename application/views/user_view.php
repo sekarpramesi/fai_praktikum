@@ -4,6 +4,7 @@
 <head>
 	<script type="text/javascript" src="http://localhost/6478/resources/jquery-3.2.1.js"></script>
 	<script type="text/javascript" src="http://localhost/6478/resources/jqueryui/jquery-ui.js"></script>
+	<link href="http://localhost/6478/resources/this.css" rel="stylesheet">
 <script type="text/javascript">
 	var items =[];  
 	items = <?php echo json_encode($this->session->userdata('searchItem'));?>;
@@ -73,6 +74,8 @@
 		 echo form_input('txtSearch','',$attribute);?><?php echo form_submit('btnSearch','Search');?>
 		<br>
 		<?php echo form_close();?>
+		<br>
+		<br>
 		<table border ='1'>
 			<tr>
 				<th>Nama Barang</th>

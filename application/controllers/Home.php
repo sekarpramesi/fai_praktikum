@@ -74,20 +74,16 @@ class Home extends CI_Controller{
 		if($this->input->post('btnLogin')){
 			$data["username"]=$this->input->post('txtUsername',true);
 			$data["password"]=$this->input->post('txtPassword',true);
-			if(strtoupper($data["username"]) == "ADMIN" && strtoupper($data["password"]) == "ADMIN"){
-				$this->session->set_userdata('username',$data['username']);
-				$cookie = array('name' => 'keepUsername', 'value' => $this->session->userdata('username'), 'expire' => 60*60*24);
-				$this->input->set_cookie($cookie);
-				redirect('Admin/index');
-			}else{
 
 				$this->form_validation->set_rules('txtUsername','Username','required|callback_userExists|callback_userActive');
 				$this->form_validation->set_rules('txtPassword','Password','required|callback_passwordCorrect');
 
 				if($this->form_validation->run()==true){
 					$search=array();
+					$boleh=array();
 					$this->session->set_userdata('username',$data['username']);
 					$this->session->set_userdata('searchItem',$search);
+					$this->session->set_userdata('canReset',$boleh);
 					$cookie = array('name' => 'keepUsername', 'value' => $this->session->userdata('username'), 'expire' => 60*60*24);
 					$this->input->set_cookie($cookie);					
 					$this->session->set_flashdata('msg','Login Successful!');
@@ -96,7 +92,6 @@ class Home extends CI_Controller{
 				{
 					redirect('Home/login');
 				}
-			}
 		}else if($this->input->post('btnHome')==true){
 			redirect('Home/index');
 		}else{

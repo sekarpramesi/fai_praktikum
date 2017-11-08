@@ -23,6 +23,7 @@ class User extends CI_Controller{
 			$this->session->unset_userdata('idBarang');
 			$this->session->unset_userdata('namaBarang');
 			$this->session->unset_userdata('searchItem');
+			$this->session->unset_userdata('canReset');
 			$this->session->unset_userdata('is_searched');
 			delete_cookie('keepUsername');
 			redirect('Home/index');
@@ -51,6 +52,7 @@ class User extends CI_Controller{
 
 			$this->session->set_userdata('searchItem',$history);
 
+			$data['reset']=$this->session->userdata('canReset');
 			$data['fill']=$this->session->userdata('searchItem');
 			$data['newfill']=json_decode(json_encode($data['fill']),true);
 			$data['user']=$this->user->getUserName($this->session->userdata('username'));

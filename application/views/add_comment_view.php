@@ -1,7 +1,11 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 <!DOCTYPE html>
 <html lang="en">
+<head>
+		<link href="http://localhost/6478/resources/this.css" rel="stylesheet">
+	</head>
 	<body>
+		<div class="right">
 		<?php
 			echo form_open('User/index');
 			echo"Selamat Datang ".$user[0]['NAME_USER'];
@@ -10,6 +14,7 @@
 			echo "<br/> <br/>";
 			echo form_close();
 		?>
+		</div>
 		<br>
 		<h2><b>Add comment for <?php echo $namaBarang;?></b></h2>
 		<br>

@@ -19,6 +19,29 @@ class Comment extends CI_Controller{
 			redirect('Comment/addComment');
 		}else if($this->input->post('btnViewComment')){
 			redirect('Comment/viewComment');
+		}else if($this->input->post('btnResetBarang')){
+			$newData=$this->input->post('namaBarang');
+			$bolehReset=$this->session->userdata('canReset');
+			$count2=sizeof($bolehReset);
+			$reset =false;
+			if($count2>0){
+				for($i = 0; $i <count($bolehReset);$i++) {
+				    if($bolehReset[$i]==$newData){
+				    	$reset=true;
+				    	//echo "no reset";
+				    }
+				}					
+			}
+			if($reset){
+				$history=$this->session->userdata('searchItem');
+				$history[]=$newData;
+				$this->session->set_userdata('searchItem',$history);
+				$cookie= array('name' => $newData, 'value' => $newData, 'expire' => 30);
+				$this->input->set_cookie($cookie);					
+			}	
+			redirect('User/index');	
+			print_r($this->session->userdata('canReset'));			
+		
 		}else{
 			$this->session->set_userdata('idBarang',$this->input->post('idBarang'));
 			$this->session->set_userdata('namaBarang',$this->input->post('namaBarang'));
@@ -30,6 +53,7 @@ class Comment extends CI_Controller{
 			$this->load->view('add_comment_view',$data);	
 		}		
 	}
+
 	public function addComment(){
 		if($this->input->post('btnSendComment')){
 			$data["idBarang"]=$this->session->userdata('idBarang');
@@ -65,8 +89,24 @@ class Comment extends CI_Controller{
 				}			
 
 				$this->session->set_userdata('searchItem',$history);
-
-				if($add == true){
+				$bolehReset=$this->session->userdata('canReset');
+					$count2=sizeof($bolehReset);
+					
+						$reset = true;
+						if($count2>0){
+							for($i = 0; $i <count($bolehReset);$i++) {
+							    if($bolehReset[$i]==$newData){
+							    	$reset=false;
+							    	echo "sudah ada";
+							    }
+							}
+						}
+						if($reset){
+							$bolehReset[]=$newData;
+							$this->session->set_userdata('canReset',$bolehReset);
+						}						
+					
+				if($add == true){				
 					$history[]=$newData;
 					$this->session->set_userdata('searchItem',$history);
 					$cookie= array('name' => $newData, 'value' => $newData, 'expire' => 30);
@@ -77,7 +117,7 @@ class Comment extends CI_Controller{
 			}
 
 			$this->load->view('add_comment_view',$data);
-			print_r($this->session->userdata('searchItem'));
+			print_r($this->session->userdata('canReset'));
 
 		}else{
 			$data["idBarang"]=$this->session->userdata('idBarang');
