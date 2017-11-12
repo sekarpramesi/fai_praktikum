@@ -70,6 +70,15 @@ class M_Barang extends CI_Model{
 			return false;
 		}
 	}
+	public function fetch($limit,$start){
+		$this->db->limit($limit,$start);
+		$query=$this->db->get('barang');
+		return $query->result_array();
+	}
+	public function record_count(){
+		
+		return $this->db->count_all('barang');
+	}
 	
 }
 ?>

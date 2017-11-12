@@ -30,5 +30,14 @@ class M_Iklan extends CI_Model{
 		$this->db->update('iklan', $data);
 		return $this->db->affected_rows();
 	}
+	public function fetch($limit,$start){
+		$this->db->limit($limit,$start);
+		$query=$this->db->get('iklan');
+		return $query->result();
+	}
+	public function record_count(){
+		
+		return $this->db->count_all('iklan');
+	}
 }
 ?>

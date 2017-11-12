@@ -6,11 +6,13 @@ class Home extends CI_Controller{
 	function __construct(){
 		parent::__construct();
 		$this->load->helper(array('url','form','cookie'));
-		$this->load->library(array('form_validation','session'));
+		$this->load->library(array('form_validation','session','parser'));
 		$this->load->model('M_User','user');
 	}
 
 	public function index(){
+
+
 		if($this->input->cookie('keepUsername',true)==strtoupper("admin")){
 			$this->session->set_userdata('username',$this->input->cookie('keepUsername',true));
 			redirect('Admin/index');
@@ -18,8 +20,6 @@ class Home extends CI_Controller{
 			$this->session->set_userdata('username',$this->input->cookie('keepUsername',true));
 			redirect('Home/index');
 
-		}else if($this->input->post('btnRegister')==true){
-			redirect('Home/register');
 		}else
 		if($this->input->post('btnLogin')==true){
 			redirect('Home/login');
@@ -49,7 +49,7 @@ class Home extends CI_Controller{
 
 			if($this->form_validation->run()==TRUE){
 				$this->user->insertUser($data["name"],$data["username"],$data["password"],$data["email"]);
-				$this->session->set_flashdata('msg','Registration successful!');
+				$this->session->set_flashdata('msgSuccess','Registration successful!');
 				redirect('Home/login');
 			}else{
 				$this->load->view('register_view',$data);
@@ -82,6 +82,9 @@ class Home extends CI_Controller{
 					$search=array();
 					$boleh=array();
 					$this->session->set_userdata('username',$data['username']);
+					$getNama=$this->user->getUserName($this->session->userdata('username'));
+					$nama=$getNama[0]["NAME_USER"];
+					$this->session->set_userdata('name',$nama);
 					$this->session->set_userdata('searchItem',$search);
 					$this->session->set_userdata('canReset',$boleh);
 					$cookie = array('name' => 'keepUsername', 'value' => $this->session->userdata('username'), 'expire' => 60*60*24);

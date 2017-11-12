@@ -20,7 +20,13 @@ class Contact extends CI_Controller{
 			$data["subjectContact"]="";
 			$data["isiContact"]="";
 			$data["user"]=$this->user->getUserName($this->session->userdata('username'));
-			$this->load->view("add_contact_view",$data);
+			$data["container"]=array("add_contact_view");
+		$data['templateData']=array(
+			"description"=>"Kirim Keluhan",
+			"title"=>"Tuliskan keluh kesah anda"
+
+		);
+		$this->load->view('template/template',$data);
 		}
 	}
 
@@ -32,6 +38,13 @@ class Contact extends CI_Controller{
 			$this->contact->sendContact($id,$data["subjectContact"],$data["isiContact"]);
 			$this->session->set_flashdata("msg","Message sent");
 			$this->load->view("add_contact_view",$data);	
+		$data["container"]=array("add_contact_view");
+		$data['templateData']=array(
+			"description"=>"Kirim Keluhan",
+			"title"=>"Tuliskan keluh kesah anda"
+
+		);
+		$this->load->view('template/template',$data);	
 	}
 }
 ?>

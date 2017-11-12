@@ -5,7 +5,7 @@ class User extends CI_Controller{
 	function __construct(){
 		parent::__construct();
 		$this->load->helper(array('url','form','cookie'));
-		$this->load->library(array('form_validation','session'));
+		$this->load->library(array('form_validation','session','pagination'));
 		$models=array(
 			'M_User'=>'user',
 			'M_Barang'=>'barang',
@@ -17,20 +17,6 @@ class User extends CI_Controller{
 	public function index(){
 		if($this->input->post('btnBackUser')==true){
 			redirect('User/index');
-		}
-		else if($this->input->post('btnLogout')==true){
-			$this->session->unset_userdata('username');
-			$this->session->unset_userdata('idBarang');
-			$this->session->unset_userdata('namaBarang');
-			$this->session->unset_userdata('searchItem');
-			$this->session->unset_userdata('canReset');
-			$this->session->unset_userdata('is_searched');
-			delete_cookie('keepUsername');
-			redirect('Home/index');
-		}else if($this->input->post('btnChangePassword')){
-			redirect('User/changePassword');
-		}else if($this->input->post('btnContactUs')){
-			redirect('Contact/index');
 		}
 		else{
 			$flag = -1;
@@ -52,15 +38,76 @@ class User extends CI_Controller{
 
 			$this->session->set_userdata('searchItem',$history);
 
-			$data['reset']=$this->session->userdata('canReset');
-			$data['fill']=$this->session->userdata('searchItem');
-			$data['newfill']=json_decode(json_encode($data['fill']),true);
 			$data['user']=$this->user->getUserName($this->session->userdata('username'));
-			$data['barang']=$this->barang->getAllBarang();
 			$data['hotBarang']=$this->barang->getHotBarang();
-			$data['iklan']=$this->iklan->getAllIklan();
-			$this->load->view('user_view',$data);
+			//$data['iklan']=$this->iklan->getAllIklan();
+			/**pagination**/
+			$config=array();
+			$config["base_url"]=base_url()."User/index";
+			$config["total_rows"]=$this->iklan->record_count();
+			$config["per_page"]=5;
+			$config["uri_segment"]=3;
+			/**paginationlinks**/
+			$config["full_tag_open"] = '<ul class="pagination">';
+			$config["full_tag_close"] = '</ul>';	
+			$config["first_link"] = "&laquo;";
+			$config["first_tag_open"] = "<li>";
+			$config["first_tag_close"] = "</li>";
+			$config["last_link"] = "&raquo;";
+			$config["last_tag_open"] = "<li>";
+			$config["last_tag_close"] = "</li>";
+			$config['next_link'] = '&gt;';
+			$config['next_tag_open'] = '<li>';
+			$config['next_tag_close'] = '<li>';
+			$config['prev_link'] = '&lt;';
+			$config['prev_tag_open'] = '<li>';
+			$config['prev_tag_close'] = '<li>';
+			$config['cur_tag_open'] = '<li class="active"><a href="#">';
+			$config['cur_tag_close'] = '</a></li>';
+			$config['num_tag_open'] = '<li>';
+			$config['num_tag_close'] = '</li>';
+			/**endpaginationlinks**/
+			$this->pagination->initialize($config);
+			$data["allowed"]=$config["per_page"];
+			$page=($this->uri->segment(3))? $this->uri->segment(3) : 0;
+			$data["results"]=$this->iklan->fetch($config["per_page"],$page);
+			$data["links"]=$this->pagination->create_links();
+			$data["halaman"]=$this->pagination->cur_page;
+			/*end pagination**/
+			$data['container']=array("user_hot_items","user_iklan_baris");
+			$data['templateData']=array(
+				"title"=>"Home",
+				"description"=>"Lihat Hot Items dan Iklan"
+			);
+			$this->load->view('template/template',$data);
 		}
+	}
+	public function LihatBarang(){
+
+	}
+
+	public function berapaData()
+{
+    //Get the value from the form.
+    if($this->input->post('datatable_length')!= ""){
+   	 $search = $this->input->post('datatable_length');
+   	 return $search;
+	}else
+	{
+		return false;
+	}
+}
+	
+	public function Logout(){
+		$this->session->unset_userdata('username');
+		$this->session->unset_userdata('idBarang');
+		$this->session->unset_userdata('namaBarang');
+		$this->session->unset_userdata('searchItem');
+		$this->session->unset_userdata('canReset');
+		$this->session->unset_userdata('is_searched');
+		$this->session->unset_userdata('name');
+		delete_cookie('keepUsername');
+		redirect('Home/index');
 	}
 	public function autocomplete(){
 		$data["fill"]=$this->session->userdata('searchItem');
@@ -82,14 +129,20 @@ class User extends CI_Controller{
 
 			if($this->form_validation->run()==TRUE){
 				$this->user->updatePasswordUser($this->session->userdata('username'),$data["newPassword"]);
-				$this->session->set_flashdata("msg","Password berhasil diubah");
+				$this->session->set_flashdata("msgSuccess","Password berhasil diubah");
 				redirect('User/index');
 			}else{
 				$data["newPassword"]="";
 				$data["oldPassword"]="";
 				$data["confPassword"]="";
 				$data["user"]=$this->user->getUserName($this->session->userdata('username'));	
-				$this->load->view('change_view',$data);
+				$data['container']=array("change_view");
+				$data['templateData']=array(
+					"title"=>"Ganti Password",
+					"description"=>"Ganti password anda",
+				);
+				$this->session->set_flashdata("msg","Gagal mengubah password!");
+				$this->load->view('template/template',$data);
 			}
 
 		}else{
@@ -97,7 +150,12 @@ class User extends CI_Controller{
 				$data["oldPassword"]="";
 				$data["confPassword"]="";
 				$data["user"]=$this->user->getUserName($this->session->userdata('username'));	
-				$this->load->view('change_view',$data);
+				$data['container']=array("change_view");
+				$data['templateData']=array(
+				"title"=>"Ganti Password",
+				"description"=>"Ganti password anda"
+			);
+			$this->load->view('template/template',$data);
 		}
 	}
 	///change password///

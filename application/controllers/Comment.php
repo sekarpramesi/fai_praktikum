@@ -6,7 +6,7 @@ class Comment extends CI_Controller{
 	function __construct(){
 		parent::__construct();
 		$this->load->helper(array('url','form','cookie'));
-		$this->load->library(array('form_validation','session'));
+		$this->load->library(array('form_validation','session','pagination'));
 		$models=array(
 			'M_User'=>'user',
 			'M_Barang'=>'barang',
@@ -49,9 +49,46 @@ class Comment extends CI_Controller{
 			$data["namaBarang"]=$this->session->userdata('namaBarang');
 			$data["comment"]=$this->comment->getAllComment($this->session->userdata('idBarang'));
 			$data["user"]= $this->user->getUserName($this->session->userdata('username'));
-			
-			$this->load->view('add_comment_view',$data);	
-		}		
+			/**pagination**/
+			$config=array();
+			$config["base_url"]=base_url()."Comment/index";
+			$config["total_rows"]=$this->comment->record_count($data["idBarang"]);
+			$config["per_page"]=5;
+			$config["uri_segment"]=3;
+			/**paginationlinks**/
+			$config["full_tag_open"] = '<ul class="pagination">';
+			$config["full_tag_close"] = '</ul>';	
+			$config["first_link"] = "&laquo;";
+			$config["first_tag_open"] = "<li>";
+			$config["first_tag_close"] = "</li>";
+			$config["last_link"] = "&raquo;";
+			$config["last_tag_open"] = "<li>";
+			$config["last_tag_close"] = "</li>";
+			$config['next_link'] = '&gt;';
+			$config['next_tag_open'] = '<li>';
+			$config['next_tag_close'] = '<li>';
+			$config['prev_link'] = '&lt;';
+			$config['prev_tag_open'] = '<li>';
+			$config['prev_tag_close'] = '<li>';
+			$config['cur_tag_open'] = '<li class="active"><a href="#">';
+			$config['cur_tag_close'] = '</a></li>';
+			$config['num_tag_open'] = '<li>';
+			$config['num_tag_close'] = '</li>';
+			/**endpaginationlinks**/
+			$this->pagination->initialize($config);
+			$data["allowed"]=$config["per_page"];
+			$page=($this->uri->segment(3))? $this->uri->segment(3) : 0;
+			$data["comment"]=$this->comment->fetch($data["idBarang"],$config["per_page"],$page);
+			$data["links"]=$this->pagination->create_links();
+			$data["halaman"]=$this->pagination->cur_page;
+			/*end pagination**/
+		$data["container"]=array("add_comment_view");
+		$data['templateData']=array(
+			"title"=>"Tambah Komen",
+			"description"=>"Tambah komentar untuk barang ini"
+		);
+		$this->load->view('template/template',$data);				
+		}
 	}
 
 	public function addComment(){
@@ -115,18 +152,92 @@ class Comment extends CI_Controller{
 				
 				$this->session->set_userdata('is_searched','false');
 			}
-
-			$this->load->view('add_comment_view',$data);
-			print_r($this->session->userdata('canReset'));
-
+			/**pagination**/
+			$config=array();
+			$config["base_url"]=base_url()."Comment/addComment";
+			$config["total_rows"]=$this->comment->record_count($data["idBarang"]);
+			$config["per_page"]=5;
+			$config["uri_segment"]=3;
+			/**paginationlinks**/
+			$config["full_tag_open"] = '<ul class="pagination">';
+			$config["full_tag_close"] = '</ul>';	
+			$config["first_link"] = "&laquo;";
+			$config["first_tag_open"] = "<li>";
+			$config["first_tag_close"] = "</li>";
+			$config["last_link"] = "&raquo;";
+			$config["last_tag_open"] = "<li>";
+			$config["last_tag_close"] = "</li>";
+			$config['next_link'] = '&gt;';
+			$config['next_tag_open'] = '<li>';
+			$config['next_tag_close'] = '<li>';
+			$config['prev_link'] = '&lt;';
+			$config['prev_tag_open'] = '<li>';
+			$config['prev_tag_close'] = '<li>';
+			$config['cur_tag_open'] = '<li class="active"><a href="#">';
+			$config['cur_tag_close'] = '</a></li>';
+			$config['num_tag_open'] = '<li>';
+			$config['num_tag_close'] = '</li>';
+			/**endpaginationlinks**/
+			$this->pagination->initialize($config);
+			$data["allowed"]=$config["per_page"];
+			$page=($this->uri->segment(3))? $this->uri->segment(3) : 0;
+			$data["comment"]=$this->comment->fetch($data["idBarang"],$config["per_page"],$page);
+			$data["links"]=$this->pagination->create_links();
+			$data["halaman"]=$this->pagination->cur_page;
+			/*end pagination**/
+			$data["container"]=array("add_comment_view");
+			$data['templateData']=array(
+				"title"=>"Tambah Komen",
+				"description"=>"Tambah komentar untuk barang ini"
+			);
+			$this->load->view('template/template',$data);	
 		}else{
 			$data["idBarang"]=$this->session->userdata('idBarang');
 			$data["namaBarang"]=$this->session->userdata('namaBarang');;
 			$data["comment"]=$this->comment->getAllComment($this->session->userdata('idBarang'));
 			$data["isiComment"]="";
 			$data["user"]= $this->user->getUserName($this->session->userdata('username'));
-			$this->load->view('add_comment_view',$data);		
-		}	
+			/**pagination**/
+			$config=array();
+			$config["base_url"]=base_url()."Comment/addComment";
+			$config["total_rows"]=$this->comment->record_count($data["idBarang"]);
+			$config["per_page"]=5;
+			$config["uri_segment"]=3;
+			/**paginationlinks**/
+			$config["full_tag_open"] = '<ul class="pagination">';
+			$config["full_tag_close"] = '</ul>';	
+			$config["first_link"] = "&laquo;";
+			$config["first_tag_open"] = "<li>";
+			$config["first_tag_close"] = "</li>";
+			$config["last_link"] = "&raquo;";
+			$config["last_tag_open"] = "<li>";
+			$config["last_tag_close"] = "</li>";
+			$config['next_link'] = '&gt;';
+			$config['next_tag_open'] = '<li>';
+			$config['next_tag_close'] = '<li>';
+			$config['prev_link'] = '&lt;';
+			$config['prev_tag_open'] = '<li>';
+			$config['prev_tag_close'] = '<li>';
+			$config['cur_tag_open'] = '<li class="active"><a href="#">';
+			$config['cur_tag_close'] = '</a></li>';
+			$config['num_tag_open'] = '<li>';
+			$config['num_tag_close'] = '</li>';
+			/**endpaginationlinks**/
+			$this->pagination->initialize($config);
+			$data["allowed"]=$config["per_page"];
+			$page=($this->uri->segment(3))? $this->uri->segment(3) : 0;
+			$data["comment"]=$this->comment->fetch($data["idBarang"],$config["per_page"],$page);
+			$data["links"]=$this->pagination->create_links();
+			$data["halaman"]=$this->pagination->cur_page;
+			/*end pagination**/
+		$data["container"]=array("add_comment_view");
+		$data['templateData']=array(
+			"description"=>"Tambah komentar untuk barang".$data['namaBarang'],
+			"title"=>"Tambah Komen"
+
+		);
+		$this->load->view('template/template',$data);	
+		}
 	}
 
 	public function viewComment(){		

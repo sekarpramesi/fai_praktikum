@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 02, 2017 at 02:45 AM
+-- Generation Time: Nov 09, 2017 at 05:13 AM
 -- Server version: 10.1.26-MariaDB
 -- PHP Version: 7.1.9
 
@@ -42,7 +42,7 @@ CREATE TABLE `barang` (
 --
 
 INSERT INTO `barang` (`ID_BARANG`, `NAMA_BARANG`, `HARGA_BARANG`, `JUMLAH_BARANG`, `HOT_BARANG`) VALUES
-(11, 'rinso', 5000, 50, 0),
+(11, 'rinso', 5000, 50, 1),
 (12, 'wasabi', 3000, 20, 0),
 (13, 'ayam', 1000, 30, 0),
 (14, 'keset', 4000, 40, 0),
@@ -223,7 +223,23 @@ INSERT INTO `comment` (`ID_COMMENT`, `ID_BARANG`, `ID_USER`, `ISI_COMMENT`, `TIM
 (167, 11, 18, 'lc', '2017-11-02 01:42:22'),
 (168, 13, 18, 'Isi Commendt', '2017-11-02 01:42:45'),
 (169, 11, 18, 'dment', '2017-11-02 01:43:09'),
-(170, 11, 18, 's', '2017-11-02 01:43:29');
+(170, 11, 18, 's', '2017-11-02 01:43:29'),
+(171, 12, 18, 'Isi Commentenak', '2017-11-03 06:47:22'),
+(172, 11, 18, 'www', '2017-11-03 06:48:08'),
+(173, 13, 10, 'hey', '2017-11-08 15:50:38'),
+(174, 12, 10, 'fff', '2017-11-08 15:50:52'),
+(175, 14, 10, 'Isi Comment', '2017-11-08 15:51:14'),
+(176, 11, 10, 'Isi Comments', '2017-11-08 19:13:57'),
+(177, 12, 10, 'www', '2017-11-09 01:19:51'),
+(178, 17, 18, 'test', '2017-11-09 03:09:19'),
+(179, 11, 10, 'ey', '2017-11-09 03:40:51'),
+(180, 11, 10, 'ss', '2017-11-09 03:46:29'),
+(181, 11, 10, 'aa', '2017-11-09 03:46:34'),
+(182, 12, 10, 'wasabi!', '2017-11-09 03:46:49'),
+(183, 14, 10, 'keset', '2017-11-09 03:47:08'),
+(184, 13, 10, 'hayam gorenggg', '2017-11-09 03:47:35'),
+(185, 15, 10, 'ss', '2017-11-09 03:49:43'),
+(186, 16, 10, 'ss', '2017-11-09 03:50:49');
 
 -- --------------------------------------------------------
 
@@ -255,7 +271,8 @@ INSERT INTO `contact_user` (`ID_CONTACT`, `ID_USER`, `SUBJECT_CONTACT`, `ISI_CON
 (13, 9, 'lagu', 'sayang,opo kowe krungu?', '2017-11-01 18:23:39'),
 (14, 15, 'lanjut', 'jerite atiku', '2017-11-01 18:23:39'),
 (15, 11, 'despacito', 'bosen', '2017-11-01 18:23:39'),
-(16, 18, 'dd', 'dd', '2017-11-02 01:43:51');
+(16, 18, 'dd', 'dd', '2017-11-02 01:43:51'),
+(17, 10, 'sdfs', 'ss', '2017-11-09 03:55:41');
 
 -- --------------------------------------------------------
 
@@ -321,7 +338,12 @@ INSERT INTO `user` (`ID_USER`, `NAME_USER`, `USERNAME_USER`, `PASSWORD_USER`, `E
 (18, 'Ada Lovelace', 'adaladal', 'adal1234', 'g@mail.com', 1, 0),
 (19, 'Alan Turing', 'alanalan', 'alan1234', 'h@mail.com', 1, 0),
 (20, 'John von Neumann', 'johnjohn', 'john1234', 'i@mail.com', 1, 0),
-(21, 'Nella Kharisma', 'nellanella', 'nella1234', 'j@mail.com', 1, 0);
+(21, 'Nella Kharisma', 'nellanella', 'nella1234', 'j@mail.com', 1, 0),
+(22, 'oi', 'Halohalo', 'asdf1234', 'halo@mail.com', 1, 0),
+(23, 'oioi', 'Mishamisha', 'qwer1234', 'misha@mail.com', 1, 0),
+(24, 'poly', 'polypoly', 'qwer1234', 'poly@mail.com', 1, 0),
+(25, 'tyui', 'tyuityui', 'tyui1234', 'tyui@mail.com', 1, 0),
+(26, 'yaelah', 'cobacoba', 'coba1234', 'coba@mail.com', 1, 0);
 
 --
 -- Indexes for dumped tables
@@ -374,13 +396,13 @@ ALTER TABLE `barang`
 -- AUTO_INCREMENT for table `comment`
 --
 ALTER TABLE `comment`
-  MODIFY `ID_COMMENT` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=171;
+  MODIFY `ID_COMMENT` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=187;
 
 --
 -- AUTO_INCREMENT for table `contact_user`
 --
 ALTER TABLE `contact_user`
-  MODIFY `ID_CONTACT` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `ID_CONTACT` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `iklan`
@@ -392,7 +414,7 @@ ALTER TABLE `iklan`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `ID_USER` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `ID_USER` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- Constraints for dumped tables
