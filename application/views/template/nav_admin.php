@@ -13,9 +13,7 @@
                     <span class=" fa fa-angle-down"></span>
                   </a>
                   <ul class="dropdown-menu dropdown-usermenu pull-right">
-                    <li><a href="http://localhost/6478/index.php/Contact/index"><i class="fa fa-phone pull-right"></i> Contact Us</a></li>
-                    <!--<li><a href="http://localhost/6478/index.php/User/changePassword"><i class="fa fa-user pull-right"></i> Change Password</a></li>-->
-                    <li><a href="http://localhost/6478/index.php/User/Logout"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
+                    <li><a href="http://localhost/6478/index.php/Admin/Logout"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
                   </ul>
                 </li>
               </ul>

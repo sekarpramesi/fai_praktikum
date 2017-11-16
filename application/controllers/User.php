@@ -13,7 +13,60 @@ class User extends CI_Controller{
 		);
 		$this->load->model($models);
 	}
+	public function admin(){
+			$data['container']=array("admin/masterUser/master_user_view");
+			$data['templateData']=array(
+				"title"=>"Daftar User",
+				"description"=>"Kelola user"
+			);
+			$data["user"]=$this->user->getAllUser();
+			$this->load->view('template/template_admin',$data);		
+	}
 
+	public function editGambar(){
+		$post=$this->input->post();
+		if(isset($post["btnEditGambar"])){
+					$config['upload_path'] = './uploads/user/';
+					$config['allowed_types'] = 'jpeg|jpg|png';
+					$config['max_size'] = 500;
+		            $config['max_width'] = 1000;
+		            $config['max_height'] = 1000;
+
+					$this->load->library('upload', $config);
+
+					$namafile = "";
+				if(! $this->upload->do_upload("gbr")){
+					$this->session->set_flashdata("msg",$this->upload->display_errors());
+				}else{
+
+					$this->load->helper('file');
+					$id=$this->input->post('idUser');
+					$data["file"]=$this->user->getUserData($id);
+					$fileName=$data["file"][0]["FILE_USER"];
+
+					unlink('./uploads/user/'.$fileName);
+						$te = $this->upload->data();
+						$namafile = $te["file_name"];
+						$id=$this->input->post('idUser');
+						if($this->user->updateFileUser($id,$namafile)>0)
+						$this->session->set_flashdata("msgSuccess","Berhasil!");
+						else
+						$this->session->set_flashdata("msg","Gagal Update");
+								
+				}
+				redirect("User/admin");
+
+		}else if(isset($post["btnEdit"])){
+			$data['container']=array("admin/masterUser/master_user_view","admin/masterUser/edit_user_view");
+			$data['templateData']=array(
+				"title"=>"Daftar User",
+				"description"=>"Kelola user"
+			);
+			$data["idUser"]=$this->input->post("idUser");
+			$data["user"]=$this->user->getAllUser();
+			$this->load->view('template/template_admin',$data);			
+		}
+	}
 	public function index(){
 		if($this->input->post('btnBackUser')==true){
 			redirect('User/index');
@@ -40,6 +93,7 @@ class User extends CI_Controller{
 
 			$data['user']=$this->user->getUserName($this->session->userdata('username'));
 			$data['hotBarang']=$this->barang->getHotBarang();
+			$data["iklan"]=$this->iklan->getAllIklan();
 			//$data['iklan']=$this->iklan->getAllIklan();
 			/**pagination**/
 			$config=array();
@@ -74,7 +128,7 @@ class User extends CI_Controller{
 			$data["links"]=$this->pagination->create_links();
 			$data["halaman"]=$this->pagination->cur_page;
 			/*end pagination**/
-			$data['container']=array("user_hot_items","user_iklan_baris");
+			$data['container']=array("user/main/user_hot_items","user/main/user_iklan_baris");
 			$data['templateData']=array(
 				"title"=>"Home",
 				"description"=>"Lihat Hot Items dan Iklan"

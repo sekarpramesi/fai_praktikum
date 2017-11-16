@@ -15,8 +15,21 @@ class M_User extends CI_Model{
 		$this->db->update('user');
 	 	return $this->db->affected_rows();		
 	}
+
+	public function updateFileUser($id,$gbr){
+		$data = array(
+		        'FILE_USER'=>$gbr
+		);
+
+		$this->db->where('ID_USER', $id);
+		$this->db->update('user', $data);
+		return $this->db->affected_rows();		
+	}
+	public function getUserData($id){
+		return $this->db->get_where('user',array("ID_USER"=>$id))->result_array();
+	}
 	public function getAllUser(){
-		return $this->db->get('user')->result();
+		return $this->db->get('user')->result_array();
 	}
 
 	public function getIdUser($username){
@@ -44,12 +57,13 @@ class M_User extends CI_Model{
 		return $this->db->get_where('user',array('USERNAME_USER'=>$username,'PASSWORD_USER'=>$password))->result();	
 	}
 
-	public function insertUser($name,$username,$password,$email){
+	public function insertUser($name,$username,$password,$email,$gbr){
         $data = array(     
             "NAME_USER" =>$name,
             "USERNAME_USER" =>$username,
             "PASSWORD_USER" =>$password,
             "EMAIL_USER"=>$email,
+            "FILE_USER"=>$gbr,
             "STATUS_USER" =>1
         );
         $this->db->insert("user",$data);

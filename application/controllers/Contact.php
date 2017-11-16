@@ -20,7 +20,7 @@ class Contact extends CI_Controller{
 			$data["subjectContact"]="";
 			$data["isiContact"]="";
 			$data["user"]=$this->user->getUserName($this->session->userdata('username'));
-			$data["container"]=array("add_contact_view");
+			$data["container"]=array("user/commands/add_contact_view");
 		$data['templateData']=array(
 			"description"=>"Kirim Keluhan",
 			"title"=>"Tuliskan keluh kesah anda"
@@ -30,21 +30,71 @@ class Contact extends CI_Controller{
 		}
 	}
 
-	public function sendContact(){
-			$data["subjectContact"]=$this->input->post('subjectContact');
-			$data["isiContact"]=$this->input->post('isiContact');
-			$data["user"]= $this->user->getUserName($this->session->userdata('username'));
-			$id =$data["user"][0]["ID_USER"];
-			$this->contact->sendContact($id,$data["subjectContact"],$data["isiContact"]);
-			$this->session->set_flashdata("msg","Message sent");
-			$this->load->view("add_contact_view",$data);	
-		$data["container"]=array("add_contact_view");
+	public function admin(){
+		$data["contact"]=$this->contact->getAllContactUs();
+			$data["container"]=array("admin/masterContact/master_contact_view");
 		$data['templateData']=array(
-			"description"=>"Kirim Keluhan",
-			"title"=>"Tuliskan keluh kesah anda"
+			"description"=>"Pesan Contact dari User",
+			"title"=>"Pesan");	
+			$this->load->view('template/template_admin',$data);	
+	}
 
-		);
-		$this->load->view('template/template',$data);	
+	public function sendContact(){
+		$post = $this->input->post();
+		if(isset($post["btnSendContact"])){
+				$data["subjectContact"]=$this->input->post('subjectContact');
+				$data["isiContact"]=$this->input->post('isiContact');
+			$this->form_validation->set_rules('subjectContact','Subject','required');
+			$this->form_validation->set_rules('isiContact','Isi','required');
+			if($this->form_validation->run()==true){
+					$config['upload_path'] = './uploads/contact/';
+					$config['allowed_types'] = 'jpeg|jpg|png';
+					$config['max_size'] = 500;
+		            $config['max_width'] = 1000;
+		            $config['max_height'] = 1000;
+					$config['upload_path'] = './uploads/contact/';
+					$config['allowed_types'] = 'jpeg|jpg|png';
+					$config['max_size'] = 500;
+		            $config['max_width'] = 1000;
+		            $config['max_height'] = 1000;
+		            
+					$this->load->library('upload', $config);
+
+					$namafile = "";
+					if (!$this->upload->do_upload("gbr"))
+					{
+						$this->session->set_flashdata("msg",$this->upload->display_errors());
+					}
+					else
+					{
+						$te = $this->upload->data();
+						$namafile = $te["file_name"];
+
+						$data["user"]= $this->user->getUserName($this->session->userdata('username'));
+						$id =$data["user"][0]["ID_USER"];
+						if($this->contact->sendContact($id,$data["subjectContact"],$data["isiContact"],$namafile)>0){
+							$this->session->set_flashdata("msgSuccess","Berhasil!");
+						}
+						else{
+							$this->session->set_flashdata("msg","Gagal Kirim");
+						}
+					}
+
+					$data["container"]=array("user/commands/add_contact_view");
+					$data['templateData']=array(
+					"description"=>"Kirim Keluhan",
+					"title"=>"Tuliskan keluh kesah anda"
+					);
+					$this->load->view('template/template',$data);
+			}else{
+						$data["container"]=array("user/commands/add_contact_view");
+						$data['templateData']=array(
+						"description"=>"Kirim Keluhan",
+						"title"=>"Tuliskan keluh kesah anda"
+						);
+						$this->load->view('template/template',$data);				
+			}
+		}	
 	}
 }
 ?>

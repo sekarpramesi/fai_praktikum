@@ -31,9 +31,23 @@ class M_Comment extends CI_Model{
         $this->db->insert("comment",$data);
         return $this->db->affected_rows();		
 	}
-
+	public function insertCommentFile($idBarang,$idUser,$isiComment,$gbr){
+        $data = array(     
+            "ID_BARANG" =>$idBarang,
+            "ID_USER" =>$idUser,
+            "ISI_COMMENT" =>$isiComment,
+            "COMMENT_FILE"=>$gbr
+        );
+        $this->db->insert("comment",$data);
+        return $this->db->affected_rows();		
+	}
 	public function deleteComment($id){
 		$this->db->where('ID_COMMENT',$id);
+		$this->db->delete('comment');
+		return $this->db->affected_rows();
+	}
+	public function deleteCommentBarang($id){
+		$this->db->where('ID_BARANG',$id);
 		$this->db->delete('comment');
 		return $this->db->affected_rows();
 	}

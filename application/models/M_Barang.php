@@ -18,11 +18,12 @@ class M_Barang extends CI_Model{
 		return $this->db->get_where('barang',array('HOT_BARANG'=>1))->result_array();
 	}
 
-	public function insertBarang($namaBarang,$hargaBarang,$jumlahBarang){
+	public function insertBarang($namaBarang,$hargaBarang,$jumlahBarang,$gbr){
         $data = array(     
             "NAMA_BARANG" =>$namaBarang,
             "HARGA_BARANG" =>$hargaBarang,
-            "JUMLAH_BARANG" =>$jumlahBarang
+            "JUMLAH_BARANG" =>$jumlahBarang,
+            "BARANG_FILE"=>$gbr
         );
         $this->db->insert("barang",$data);
         return $this->db->affected_rows();
@@ -33,6 +34,24 @@ class M_Barang extends CI_Model{
 		$this->db->where('ID_BARANG',$id);
 		$this->db->update('barang');
 	 	return $this->db->affected_rows();
+	}
+
+	public function updateWithoutBarang($namaBarang,$hargaBarang,$jumlahBarang,$id){
+		$this->db->set('NAMA_BARANG',$namaBarang);
+		$this->db->set('HARGA_BARANG',$hargaBarang);
+		$this->db->set('JUMLAH_BARANG',$jumlahBarang);
+		$this->db->where('ID_BARANG',$id);
+		$this->db->update('barang');
+	 	return $this->db->affected_rows();		
+	}
+	public function newUpdateBarang($namaBarang,$hargaBarang,$jumlahBarang,$gbr,$id){
+		$this->db->set('NAMA_BARANG',$namaBarang);
+		$this->db->set('HARGA_BARANG',$hargaBarang);
+		$this->db->set('JUMLAH_BARANG',$jumlahBarang);
+		$this->db->set('BARANG_FILE',$gbr);
+		$this->db->where('ID_BARANG',$id);
+		$this->db->update('barang');
+	 	return $this->db->affected_rows();		
 	}
 
 	public function deleteBarang($id){

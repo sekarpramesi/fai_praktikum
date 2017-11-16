@@ -8,7 +8,8 @@
 			</div>
 			<div class="x_content">
   <?php $attribute=array('data-parsley-validate'=>'','class'=>'form-horizontal form-label-left','novalidate'=>'');
-  echo form_open('Contact/sendContact',$attribute);?>
+  echo form_open_multipart('Contact/sendContact',$attribute);
+  echo form_label("Upload Gambar :").form_upload("gbr")."<br>";?>
   <div class="form-group">
     <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Subject<span class="required">*</span>
     </label>

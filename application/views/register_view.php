@@ -32,7 +32,7 @@
         <div class="animate form login_form">
           <section class="login_content">
             <?php
-            echo form_open('Home/register');
+            echo form_open_multipart('Home/register');
               echo '<h1>Create Account</h1>
               <div>
               <input type="text" name="txtName" class="form-control"  placeholder="Name" autocomplete="off">'.
@@ -54,6 +54,11 @@
                 <input type="password" name="txtConfPassword" class="form-control" placeholder="Confirm Password" autocomplete="off"/>'.
                 form_error('txtConfPassword','<span class="help-block">','</span>').'
               </div>
+              <div>';
+              echo
+              '</div>';
+              echo form_label("Upload Profile Picture :").form_upload("gbr")."<br>";
+              echo '<div class="clearfix"></div>
               <div>
                 <input type ="submit" name ="btnSendRegistration" class="btn btn-default submit" value = "Register"/>
                 <p class="change_link">Already have an account?
@@ -76,6 +81,19 @@
               </div>';
             echo form_close();
               echo '</div>';
+             if($this->session->flashdata('msg') != ""){
+               echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+                      </button>';
+                      echo $this->session->flashdata('msg');
+              echo '</div>';
+            }else
+             if($this->session->flashdata('msgSuccess') != ""){
+               echo '<div class="alert alert-success alert-dismissible fade in" role="alert">
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+                      </button>';
+                      echo $this->session->flashdata('msgSuccess');
+              }
             ?>
           </section>
         </div>
