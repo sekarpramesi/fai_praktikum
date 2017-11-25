@@ -7,7 +7,12 @@ class M_Iklan extends CI_Model{
 		$this->db->order_by("TIMESTAMP", "DESC");
 		return $this->db->get('iklan')->result_array();
 	}
-	public function sendIklan($judul,$isi,$gbr){
+
+	public function getIklan($id){
+		return $this->db->get_where('iklan',array("ID_IKLAN"=>$id))->result_array();
+	}
+
+	public function insertIklan($judul,$isi,$gbr){
 		$data=array(
             "JUDUL_IKLAN" =>$judul,
             "ISI_IKLAN" =>$isi,
@@ -16,35 +21,23 @@ class M_Iklan extends CI_Model{
         $this->db->insert("iklan",$data);
         return $this->db->affected_rows();			
 	}
-	public function getIklan($id){
-		return $this->db->get_where('iklan',array("ID_IKLAN"=>$id))->result_array();
+	public function updateIklan($id,$judul,$isi,$gbr){
+		$this->db->set('JUDUL_IKLAN',$judul);
+		$this->db->set('ISI_IKLAN',$isi);
+		if($gbr!=""){
+			$this->db->set('FILE_IKLAN',$gbr);
+		}
+		$this->db->where('ID_IKLAN', $id);
+		$this->db->update('iklan', $data);
+		return $this->db->affected_rows();
 	}
 	public function deleteIklan($id){
 		$this->db->where('ID_IKLAN',$id);
 		$this->db->delete('iklan');
 		return $this->db->affected_rows();		
 	}
-	public function updateWithoutFile($isi,$judul,$id){
-		$data = array(
-		        'JUDUL_IKLAN' => $judul,
-		        'ISI_IKLAN' => $isi
-		);
 
-		$this->db->where('ID_IKLAN', $id);
-		$this->db->update('iklan', $data);
-		return $this->db->affected_rows();
-	}
-	public function updateIklan($isi,$judul,$id,$gbr){
-		$data = array(
-		        'JUDUL_IKLAN' => $judul,
-		        'ISI_IKLAN' => $isi,
-		        'FILE_IKLAN'=>$gbr
-		);
-
-		$this->db->where('ID_IKLAN', $id);
-		$this->db->update('iklan', $data);
-		return $this->db->affected_rows();
-	}
+	//pagination
 	public function fetch($limit,$start){
 		$this->db->limit($limit,$start);
 		$query=$this->db->get('iklan');

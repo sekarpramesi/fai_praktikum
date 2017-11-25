@@ -8,53 +8,22 @@ class M_User extends CI_Model{
 		$this->load->database();
 	}
 
-	public function addUserCredit($id,$nominal){
-		$new = intval($nominal);
-		$this->db->set("CREDIT_USER", intval("CREDIT_USER")+$new);
-		$this->db->where('ID_USER',$id);
-		$this->db->update('user');
-	 	return $this->db->affected_rows();		
-	}
-
-	public function updateFileUser($id,$gbr){
-		$data = array(
-		        'FILE_USER'=>$gbr
-		);
-
-		$this->db->where('ID_USER', $id);
-		$this->db->update('user', $data);
-		return $this->db->affected_rows();		
-	}
-	public function getUserData($id){
-		return $this->db->get_where('user',array("ID_USER"=>$id))->result_array();
+	public function getUserData($param){
+		$data=array();
+		if(preg_match('/\b[^\d\W_]+\b/',$param)){
+			$data=array("USERNAME_USER"=>$param);
+		}else{
+			$data=array("ID_USER"=>$param);
+		}
+		return $this->db->get_where('user',$data)->result_array();
 	}
 	public function getAllUser(){
 		return $this->db->get('user')->result_array();
 	}
 
-	public function getIdUser($username){
-		return $this->db->get_where('user',array('USERNAME_USER'=>$username))->result();	
-	}
-	public function getUserName($username){
-		return $this->db->get_where('user',array('USERNAME_USER'=>$username))->result_array();	
-	}
 
-	public function checkUserAvailable($username){
-		return $this->db->get_where('user',array('USERNAME_USER'=>$username))->result();			
-	}
-
-	public function checkPasswordCorrect($username,$password){
-		return $this->db->get_where('user',array('PASSWORD_USER'=>$password,'USERNAME_USER'=>$username))->result();		
-	}
-	public function checkEmail($email){
-		return $this->db->get_where('user',array('EMAIL_USER'=>$email))->result();			
-	}
-	public function checkUserActive($username){
-		return $this->db->get_where('user',array('USERNAME_USER'=>$username,'STATUS_USER'=>1))->result();	
-	}
-
-	public function getUser($username,$password){
-		return $this->db->get_where('user',array('USERNAME_USER'=>$username,'PASSWORD_USER'=>$password))->result();	
+	public function checkUser($username,$password){
+		return $this->db->get_where('user',array('USERNAME_USER'=>$username,'PASSWORD_USER'=>$password))->result_array();
 	}
 
 	public function insertUser($name,$username,$password,$email,$gbr){
@@ -63,23 +32,24 @@ class M_User extends CI_Model{
             "USERNAME_USER" =>$username,
             "PASSWORD_USER" =>$password,
             "EMAIL_USER"=>$email,
-            "FILE_USER"=>$gbr,
-            "STATUS_USER" =>1
+            "FILE_USER"=>$gbr
         );
         $this->db->insert("user",$data);
         return $this->db->affected_rows();
 	}
-	public function updatePasswordUser($id,$password){
-		$this->db->set('PASSWORD_USER',$password);
-		$this->db->where('ID_USER',$id);
-		$this->db->update('user');
-	 	return $this->db->affected_rows();
-	}
-	public function updateStatusUser($status,$id){
-		if($status==0)$newStat=1;elseif ($status==1) {
-			$newStat = 0;
+
+	public function updateUser($id,$fieldName,$data){
+		if($fieldName=="status"){
+			if($data==0)$data=1;else $data= 0;
+			$fieldName="STATUS_USER";
+		}else if($fieldName=="photo"){
+			$fieldName="FILE_USER";
+		}else if($fieldName=="password"){
+			$fieldName="PASSWORD_USER";
+		}else if($fieldName=="credit"){
+			$fieldName="CREDIT_USER";
 		}
-		$this->db->set('STATUS_USER',$newStat);
+		$this->db->set($fieldName,$data);
 		$this->db->where('ID_USER',$id);
 		$this->db->update('user');
 	 	return $this->db->affected_rows();

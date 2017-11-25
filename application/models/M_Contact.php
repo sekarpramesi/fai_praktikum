@@ -10,7 +10,7 @@ class M_Contact extends CI_Model{
 		return $this->db->get()->result_array();
 	}
 
-	public function sendContact($idUser,$subject,$isi,$gbr){
+	public function insertContact($idUser,$subject,$isi,$gbr){
 		$data=array(
             "ID_USER" =>$idUser,
             "SUBJECT_CONTACT" =>$subject,

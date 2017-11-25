@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 16, 2017 at 04:32 AM
+-- Generation Time: Nov 25, 2017 at 03:13 AM
 -- Server version: 10.1.26-MariaDB
 -- PHP Version: 7.1.9
 
@@ -45,11 +45,11 @@ CREATE TABLE `barang` (
 --
 
 INSERT INTO `barang` (`ID_BARANG`, `NAMA_BARANG`, `HARGA_BARANG`, `JUMLAH_BARANG`, `HOT_BARANG`, `BARANG_FILE`) VALUES
-(1, 'rinso', 7000, 12, 1, 'download.jpg'),
-(2, 'buku', 9000, 22, 1, '1398034.jpg'),
-(3, 'gitar', 5000, 34, 1, 'CORT-Gitar-Akustik-AC-100-OP-Open-Pore-SKU00216236-2016115105142.jpg'),
-(4, 'laptop', 5554, 23, 0, 'laptop.png'),
-(5, 'roti', 4566, 4, 0, 'roti.jpg');
+(2, 'buku', 9000, 18, 1, '1398034.jpg'),
+(3, 'gitar', 5000, 52, 1, 'CORT-Gitar-Akustik-AC-100-OP-Open-Pore-SKU00216236-2016115105142.jpg'),
+(4, 'laptop', 5554, 28, 1, 'laptop.png'),
+(7, 'mobil', 1234, 26, 1, 'USC80AUC191A121001.png'),
+(8, 'kue', 300, 50, 1, 'kue-bolu-mentega.jpg');
 
 -- --------------------------------------------------------
 
@@ -72,11 +72,11 @@ CREATE TABLE `comment` (
 --
 
 INSERT INTO `comment` (`ID_COMMENT`, `ID_BARANG`, `ID_USER`, `ISI_COMMENT`, `COMMENT_FILE`, `TIMESTAMP`) VALUES
-(1, 1, 1, 'troll', 'kom2.jpg', '2017-11-16 03:28:45'),
 (2, 2, 1, 'hehe', 'kom3.jpg', '2017-11-16 03:29:02'),
 (3, 3, 1, 'what', 'kom4.jpg', '2017-11-16 03:29:14'),
 (4, 4, 1, 'aaaa', 'kom5.jpg', '2017-11-16 03:29:40'),
-(5, 3, 1, 'hehe', NULL, '2017-11-16 03:29:50');
+(5, 3, 1, 'hehe', NULL, '2017-11-16 03:29:50'),
+(6, 2, 4, 'bagus', '', '2017-11-24 23:20:14');
 
 -- --------------------------------------------------------
 
@@ -103,7 +103,8 @@ INSERT INTO `contact_user` (`ID_CONTACT`, `ID_USER`, `SUBJECT_CONTACT`, `ISI_CON
 (6, 1, 'again', 'ss', 'con4.jpg', '2017-11-16 03:30:30'),
 (7, 4, ':((', 'ssss', 'con3.jpg', '2017-11-16 03:30:51'),
 (8, 4, 'nooo', 'yes', 'con41.jpg', '2017-11-16 03:31:03'),
-(9, 5, 'hey', 'ss', 'con2.png', '2017-11-16 03:31:29');
+(9, 5, 'hey', 'ss', 'con2.png', '2017-11-16 03:31:29'),
+(10, 1, '??', 'masa ini gaada gan', 'USC80AUC191A1210012.png', '2017-11-22 04:53:08');
 
 -- --------------------------------------------------------
 
@@ -125,11 +126,36 @@ CREATE TABLE `iklan` (
 --
 
 INSERT INTO `iklan` (`ID_IKLAN`, `JUDUL_IKLAN`, `ISI_IKLAN`, `FILE_IKLAN`, `TIMESTAMP`) VALUES
-(1, 'hehe', 'meme', 'kom1.jpg', '2017-11-16 03:25:14'),
-(2, 'yayayaya', 'ini iklan', 'ad1.jpg', '2017-11-16 03:25:33'),
 (3, 'sss', 'gee', 'ad4.jpg', '2017-11-16 03:25:57'),
 (4, 'sss', 'gaaa', 'ad5.jpg', '2017-11-16 03:26:11'),
-(5, 'aaa', 'ttt', 'ad3.jpeg', '2017-11-16 03:27:58');
+(5, 'ss', 'ttt', 'USC80AUC191A121001.png', '2017-11-16 03:27:58'),
+(6, 'woroworoworo', 'aaaaa', 'Petrusich-John-Mayer2.jpg', '2017-11-22 04:59:24'),
+(7, 'weee', 'asdf', 'USC80AUC191A1210011.png', '2017-11-22 05:36:15');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `topup`
+--
+
+DROP TABLE IF EXISTS `topup`;
+CREATE TABLE `topup` (
+  `ID_TOPUP` int(50) NOT NULL,
+  `ID_USER` int(50) NOT NULL,
+  `NOMINAL` int(200) NOT NULL,
+  `TIMESTAMP` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `topup`
+--
+
+INSERT INTO `topup` (`ID_TOPUP`, `ID_USER`, `NOMINAL`, `TIMESTAMP`) VALUES
+(1, 1, 50000, '2017-11-24 09:39:19'),
+(2, 5, 25000, '2017-11-24 09:50:11'),
+(3, 2, 100000, '2017-11-24 09:58:19'),
+(4, 4, 50000, '2017-11-25 01:48:11'),
+(5, 3, 50000, '2017-11-25 01:51:16');
 
 -- --------------------------------------------------------
 
@@ -154,11 +180,11 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`ID_USER`, `NAME_USER`, `USERNAME_USER`, `PASSWORD_USER`, `EMAIL_USER`, `STATUS_USER`, `FILE_USER`, `CREDIT_USER`) VALUES
-(1, 'John Mayer', 'johnjohn', 'asdf1234', 'j@m.com', 1, 'pQC2vwZT.jpg', 0),
-(2, 'Gal Gadot', 'galggalg', 'asdf1234', 'g@m.com', 1, 'gal.jpg', 0),
-(3, 'Pramoedya Ananta Toer', 'prampram', 'asdf1234', 'p@mail.com', 1, 'pram.jpg', 0),
-(4, 'Ada Lovelace', 'adaladal', 'asdf1234', 'ad@m.com', 1, 'ada.jpg', 0),
-(5, 'David Gilmour', 'daviddavid', 'asdf1234', 'd@mail.com', 1, 'david.jpg', 0);
+(1, 'John Mayer', 'johnjohn', 'asdf1234', 'j@m.com', 1, 'Petrusich-John-Mayer.jpg', 50000),
+(2, 'Gal Gadot', 'galggalg', 'asdf1234', 'g@m.com', 1, 'gal.jpg', 61000),
+(3, 'Pramoedya Ananta Toer', 'prampram', 'asdf1234', 'p@mail.com', 1, 'pram.jpg', 50000),
+(4, 'Ada Lovelace', 'adaladal', 'asdf1234', 'ad@m.com', 1, 'ada.jpg', 48766),
+(5, 'David Gilmour', 'daviddavid', 'asdf1234', 'd@mail.com', 1, 'david.jpg', 5446);
 
 --
 -- Indexes for dumped tables
@@ -192,6 +218,13 @@ ALTER TABLE `iklan`
   ADD PRIMARY KEY (`ID_IKLAN`);
 
 --
+-- Indexes for table `topup`
+--
+ALTER TABLE `topup`
+  ADD PRIMARY KEY (`ID_TOPUP`),
+  ADD KEY `fk_user_topup` (`ID_USER`);
+
+--
 -- Indexes for table `user`
 --
 ALTER TABLE `user`
@@ -205,25 +238,31 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `barang`
 --
 ALTER TABLE `barang`
-  MODIFY `ID_BARANG` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `ID_BARANG` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `comment`
 --
 ALTER TABLE `comment`
-  MODIFY `ID_COMMENT` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `ID_COMMENT` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `contact_user`
 --
 ALTER TABLE `contact_user`
-  MODIFY `ID_CONTACT` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `ID_CONTACT` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `iklan`
 --
 ALTER TABLE `iklan`
-  MODIFY `ID_IKLAN` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `ID_IKLAN` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `topup`
+--
+ALTER TABLE `topup`
+  MODIFY `ID_TOPUP` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `user`
@@ -247,6 +286,12 @@ ALTER TABLE `comment`
 --
 ALTER TABLE `contact_user`
   ADD CONSTRAINT `contact_user_ibfk_1` FOREIGN KEY (`ID_USER`) REFERENCES `user` (`ID_USER`);
+
+--
+-- Constraints for table `topup`
+--
+ALTER TABLE `topup`
+  ADD CONSTRAINT `fk_user_topup` FOREIGN KEY (`ID_USER`) REFERENCES `user` (`ID_USER`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

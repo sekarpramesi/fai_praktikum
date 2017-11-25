@@ -6,7 +6,7 @@ class Comment extends CI_Controller{
 	function __construct(){
 		parent::__construct();
 		$this->load->helper(array('url','form','cookie'));
-		$this->load->library(array('form_validation','session','pagination'));
+		$this->load->library(array('form_validation','session','pagination','cart'));
 		$models=array(
 			'M_User'=>'user',
 			'M_Barang'=>'barang',
@@ -53,39 +53,7 @@ class Comment extends CI_Controller{
 			$data["namaBarang"]=$this->session->userdata('namaBarang');
 			$data["comment"]=$this->comment->getAllComment($this->session->userdata('idBarang'));
 			$data["user"]= $this->user->getUserName($this->session->userdata('username'));
-			/**pagination**/
-			$config=array();
-			$config["base_url"]=base_url()."Comment/index";
-			$config["total_rows"]=$this->comment->record_count($data["idBarang"]);
-			$config["per_page"]=5;
-			$config["uri_segment"]=3;
-			/**paginationlinks**/
-			$config["full_tag_open"] = '<ul class="pagination">';
-			$config["full_tag_close"] = '</ul>';	
-			$config["first_link"] = "&laquo;";
-			$config["first_tag_open"] = "<li>";
-			$config["first_tag_close"] = "</li>";
-			$config["last_link"] = "&raquo;";
-			$config["last_tag_open"] = "<li>";
-			$config["last_tag_close"] = "</li>";
-			$config['next_link'] = '&gt;';
-			$config['next_tag_open'] = '<li>';
-			$config['next_tag_close'] = '<li>';
-			$config['prev_link'] = '&lt;';
-			$config['prev_tag_open'] = '<li>';
-			$config['prev_tag_close'] = '<li>';
-			$config['cur_tag_open'] = '<li class="active"><a href="#">';
-			$config['cur_tag_close'] = '</a></li>';
-			$config['num_tag_open'] = '<li>';
-			$config['num_tag_close'] = '</li>';
-			/**endpaginationlinks**/
-			$this->pagination->initialize($config);
-			$data["allowed"]=$config["per_page"];
-			$page=($this->uri->segment(3))? $this->uri->segment(3) : 0;
-			$data["comment"]=$this->comment->fetch($data["idBarang"],$config["per_page"],$page);
-			$data["links"]=$this->pagination->create_links();
-			$data["halaman"]=$this->pagination->cur_page;
-			/*end pagination**/
+
 		$data["container"]=array("user/commands/add_comment_view");
 		$data['templateData']=array(
 			"title"=>"Tambah Komen",
@@ -100,7 +68,7 @@ class Comment extends CI_Controller{
 		if(isset($post["btnSendComment"])){
 			$data["idBarang"] =$this->session->userdata("idBarang");
 			$data["namaBarang"] = $this->session->userdata("namaBarang");
-			$data["user"]= $this->user->getUserName($this->session->userdata('username'));
+			$data["user"]= $this->user->getUserData($this->session->userdata('username'));
 			$this->form_validation->set_rules('isiComment','isi','required');
 
 			if($this->form_validation->run()==true){
@@ -117,7 +85,7 @@ class Comment extends CI_Controller{
 
 					$namafile = "";
 				if(! $this->upload->do_upload("gbr")){
-					if($this->comment->insertComment($data["idBarang"],$idUser,$data['isiComment'])>0){
+					if($this->comment->insertComment($data["idBarang"],$idUser,$data['isiComment'],'')>0){
 						$this->session->set_flashdata("msgSuccess","Berhasil!");
 					}else{
 						$this->session->set_flashdata("msg","Gagal Insert Comment");
@@ -125,7 +93,7 @@ class Comment extends CI_Controller{
 				}else{
 					$te = $this->upload->data();
 					$namafile = $te["file_name"];
-					if($this->comment->insertCommentFile($data["idBarang"],$idUser,$data['isiComment'],$namafile)>0){
+					if($this->comment->insertComment($data["idBarang"],$idUser,$data['isiComment'],$namafile)>0){
 							$this->session->set_flashdata("msgSuccess","Berhasil!");
 						}
 						else{
@@ -199,7 +167,6 @@ class Comment extends CI_Controller{
 				$this->session->set_userdata("namaBarang",$data["namaBarang"]);
 				$data["comment"]=$this->comment->getAllComment($data["idBarang"]);
 				$data["isiComment"]="";
-				$data["user"]= $this->user->getUserName($this->session->userdata('username'));
 				$data["container"]=array("user/commands/add_comment_view");
 				$data['templateData']=array(
 					"description"=>"Tambah komentar untuk barang ".$data['namaBarang'],
@@ -211,39 +178,7 @@ class Comment extends CI_Controller{
 	}
 
 	public function viewComment(){
-			/**pagination**/
-			$config=array();
-			$config["base_url"]=base_url()."Barang/index";
-			$config["total_rows"]=$this->barang->record_count();
-			$config["per_page"]=5;
-			$config["uri_segment"]=3;
-			/**paginationlinks**/
-			$config["full_tag_open"] = '<ul class="pagination">';
-			$config["full_tag_close"] = '</ul>';	
-			$config["first_link"] = "&laquo;";
-			$config["first_tag_open"] = "<li>";
-			$config["first_tag_close"] = "</li>";
-			$config["last_link"] = "&raquo;";
-			$config["last_tag_open"] = "<li>";
-			$config["last_tag_close"] = "</li>";
-			$config['next_link'] = '&gt;';
-			$config['next_tag_open'] = '<li>';
-			$config['next_tag_close'] = '<li>';
-			$config['prev_link'] = '&lt;';
-			$config['prev_tag_open'] = '<li>';
-			$config['prev_tag_close'] = '<li>';
-			$config['cur_tag_open'] = '<li class="active"><a href="#">';
-			$config['cur_tag_close'] = '</a></li>';
-			$config['num_tag_open'] = '<li>';
-			$config['num_tag_close'] = '</li>';
-			/**endpaginationlinks**/
-			$this->pagination->initialize($config);
-			$data["allowed"]=$config["per_page"];
-			$page=($this->uri->segment(3))? $this->uri->segment(3) : 0;
-			$data["barang"]=$this->barang->fetch($config["per_page"],$page);
-			$data["links"]=$this->pagination->create_links();
-			$data["halaman"]=$this->pagination->cur_page;
-			/*end pagination**/		
+		
 		$data["idBarang"] = $this->input->post('idBarang');
 		$data["namaBarang"] = $this->input->post('namaBarang');
 		$objBarang=$this->barang->getAllBarang();

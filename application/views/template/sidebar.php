@@ -4,7 +4,7 @@
                 <ul class="nav side-menu">
                   <li><a href="http://localhost/6478/index.php/User/index"><i class="fa fa-home"></i> Home <span class="fa fa-chevron-right"></span></a>
                   </li>
-                  <li><a href="http://localhost/6478/index.php/Barang/user"><i class="fa fa-shopping-cart"></i> Lihat Barang <span class="fa fa-chevron-right"></span></a>
+                  <li><a href="http://localhost/6478/index.php/Barang/lihatBarang/user"><i class="fa fa-shopping-cart"></i> Lihat Barang <span class="fa fa-chevron-right"></span></a>
                   </li>
                 </ul>
               </div>

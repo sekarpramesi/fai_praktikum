@@ -5,7 +5,7 @@ class Iklan extends CI_Controller{
 	function __construct(){
 		parent::__construct();
 		$this->load->helper(array('url','form','cookie'));
-		$this->load->library(array('form_validation','session','pagination'));
+		$this->load->library(array('form_validation','session','pagination','cart'));
 		$models=array(
 			'M_User'=>'user',
 			'M_Barang'=>'barang',
@@ -52,7 +52,7 @@ class Iklan extends CI_Controller{
 					$isi = $post["txtIsi"];
 					$judul = $post["txtJudul"];
 					$id=$this->input->post('idIklan');
-					if($this->iklan->updateWithoutFile($isi,$judul,$id)>0)
+					if($this->iklan->updateIklan($id,$judul,$isi,'')>0)
 					$this->session->set_flashdata("msgSuccess","Berhasil!");
 					else
 					$this->session->set_flashdata("msg","Gagal Update");
@@ -70,7 +70,7 @@ class Iklan extends CI_Controller{
 						$judul = $post["txtJudul"];
 						$id=$this->input->post('idIklan');
 
-						if($this->iklan->updateIklan($isi,$judul,$id,$namafile)>0)
+						if($this->iklan->updateIklan($id,$judul,$isi,$namafile)>0)
 							$this->session->set_flashdata("msgSuccess","Berhasil!");
 						else
 							$this->session->set_flashdata("msg","Gagal Update");
@@ -136,7 +136,7 @@ class Iklan extends CI_Controller{
 					$isi = $post["txtIsi"];
 					$judul = $post["txtJudul"];
 
-					if($this->iklan->sendIklan($isi,$judul,$namafile)>0)
+					if($this->iklan->insertIklan($judul,$isi,$namafile)>0)
 					$this->session->set_flashdata("msgSuccess","Berhasil!");
 					else
 					$this->session->set_flashdata("msg","Gagal Update");
@@ -150,17 +150,6 @@ class Iklan extends CI_Controller{
 	}
 }
 
-	public function Logout(){
-		$this->session->unset_userdata('username');
-		$this->session->unset_userdata('idBarang');
-		$this->session->unset_userdata('namaBarang');
-		$this->session->unset_userdata('searchItem');
-		$this->session->unset_userdata('canReset');
-		$this->session->unset_userdata('is_searched');
-		$this->session->unset_userdata('name');
-		delete_cookie('keepUsername');
-		redirect('Home/index');
-	}
 
 }
 

@@ -6,7 +6,7 @@ class Contact extends CI_Controller{
 	function __construct(){
 		parent::__construct();
 		$this->load->helper(array('url','form','cookie'));
-		$this->load->library(array('form_validation','session'));
+		$this->load->library(array('form_validation','session','cart'));
 		$models=array(
 			'M_User'=>'user',
 			'M_Contact'=>'contact',
@@ -19,7 +19,7 @@ class Contact extends CI_Controller{
 		}else{
 			$data["subjectContact"]="";
 			$data["isiContact"]="";
-			$data["user"]=$this->user->getUserName($this->session->userdata('username'));
+			$data["user"]=$this->user->getUserData($this->session->userdata('username'));
 			$data["container"]=array("user/commands/add_contact_view");
 		$data['templateData']=array(
 			"description"=>"Kirim Keluhan",
@@ -70,9 +70,9 @@ class Contact extends CI_Controller{
 						$te = $this->upload->data();
 						$namafile = $te["file_name"];
 
-						$data["user"]= $this->user->getUserName($this->session->userdata('username'));
+						$data["user"]= $this->user->getUserData($this->session->userdata('username'));
 						$id =$data["user"][0]["ID_USER"];
-						if($this->contact->sendContact($id,$data["subjectContact"],$data["isiContact"],$namafile)>0){
+						if($this->contact->insertContact($id,$data["subjectContact"],$data["isiContact"],$namafile)>0){
 							$this->session->set_flashdata("msgSuccess","Berhasil!");
 						}
 						else{

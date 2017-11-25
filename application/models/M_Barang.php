@@ -4,13 +4,17 @@ defined('BASEPATH') oR exit('No direct script access allowed');
 class M_Barang extends CI_Model{
 	//barang
 
-	public function searchBarang($namaBarang){
-		return $this->db->get_where('barang',array('NAMA_BARANG'=>$namaBarang))->result_array();
+	//CRUD
+	public function getBarang($param){
+		$data=array();
+		if(preg_match('/\b[^\d\W_]+\b/',$param)){
+			$data=array('NAMA_BARANG'=>$param);
+		}else{
+			$data=array('ID_BARANG'=>$param);
+		}
+		return $this->db->get_where('barang',$data)->result_array();
 	}
-	public function getBarang($idBarang){
-
-		return $this->db->get_where('barang',array('ID_BARANG'=>$idBarang))->result_array();
-	}
+	
 	public function getAllBarang(){
 		return $this->db->get('barang')->result_array();
 	}
@@ -29,26 +33,13 @@ class M_Barang extends CI_Model{
         return $this->db->affected_rows();
 	}
 
-	public function updateBarang($field,$newData,$id){
-		$this->db->set($field,$newData);
-		$this->db->where('ID_BARANG',$id);
-		$this->db->update('barang');
-	 	return $this->db->affected_rows();
-	}
-
-	public function updateWithoutBarang($namaBarang,$hargaBarang,$jumlahBarang,$id){
+	public function updateBarang($namaBarang,$hargaBarang,$jumlahBarang,$gbr,$id){
 		$this->db->set('NAMA_BARANG',$namaBarang);
 		$this->db->set('HARGA_BARANG',$hargaBarang);
 		$this->db->set('JUMLAH_BARANG',$jumlahBarang);
-		$this->db->where('ID_BARANG',$id);
-		$this->db->update('barang');
-	 	return $this->db->affected_rows();		
-	}
-	public function newUpdateBarang($namaBarang,$hargaBarang,$jumlahBarang,$gbr,$id){
-		$this->db->set('NAMA_BARANG',$namaBarang);
-		$this->db->set('HARGA_BARANG',$hargaBarang);
-		$this->db->set('JUMLAH_BARANG',$jumlahBarang);
-		$this->db->set('BARANG_FILE',$gbr);
+		if($gbr!=""){
+			$this->db->set('BARANG_FILE',$gbr);
+		}
 		$this->db->where('ID_BARANG',$id);
 		$this->db->update('barang');
 	 	return $this->db->affected_rows();		
@@ -59,7 +50,7 @@ class M_Barang extends CI_Model{
 		$this->db->delete('barang');
 		return $this->db->affected_rows();
 	}
-
+	//Toggle
 	public function toggleHot($id,$status){
 		if($status == 1){
 			$this->db->set('HOT_BARANG',0);
@@ -89,6 +80,7 @@ class M_Barang extends CI_Model{
 			return false;
 		}
 	}
+	//pagination
 	public function fetch($limit,$start){
 		$this->db->limit($limit,$start);
 		$query=$this->db->get('barang');

@@ -1,4 +1,5 @@
-
+<?php defined('BASEPATH') OR exit('No direct script access allowed');
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -28,7 +29,9 @@
     <link href="http://localhost/6478/vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css" rel="stylesheet">
     <link href="http://localhost/6478/vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css" rel="stylesheet">
     <link href="http://localhost/6478/vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
-
+    <!-- jQuery -->
+    <script src="http://localhost/6478/vendors/jquery/dist/jquery.min.js"></script>
+    
   </head>
 
   <body class="nav-md">
@@ -91,9 +94,7 @@
       </div>
     </div>
 
-    <!-- jQuery -->
-    <script src="http://localhost/6478/vendors/jquery/dist/jquery.min.js"></script>
-        <script type="text/javascript" src="http://localhost/6478/resources/jqueryui/jquery-ui.js"></script>
+
     <!-- Bootstrap -->
     <script src="http://localhost/6478/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
     <!-- FastClick -->
@@ -118,19 +119,6 @@
     <script src="http://localhost/6478/vendors/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
     <script src="http://localhost/6478/vendors/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
     <script src="http://localhost/6478/vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
-    <script type="text/javascript">
-        var items =[];  
-        items = <?php echo json_encode($this->session->userdata('searchItem'));?>;
-        $(document).ready(function() {
-            //autocomplete
-            $("#search").autocomplete({
-                source: items,
-                minLength: 3,
-                delay: 0,
-            });            
-
-        });
-    </script>
   
   </body>
 </html>

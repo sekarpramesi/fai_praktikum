@@ -10,7 +10,7 @@
             <!-- menu profile quick info -->
             <div class="profile clearfix">
               <div class="profile_pic">
-                <img src="http://localhost/6478/resources/user.png" alt="..." class="img-circle profile_img">
+                <img src="http://localhost/6478/<?php echo $this->session->userdata['photo'];?>" alt="http://localhost/6478/resources/user.png" class="img-circle profile_img">
               </div>
               <div class="profile_info">
                 <span>Selamat Datang,<br>

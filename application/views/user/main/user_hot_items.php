@@ -21,7 +21,7 @@
 							echo '<td>';
 							 echo '<img src="http://localhost/6478/uploads/barang/'.$hotBarang[$i]['BARANG_FILE'].'" width="100px" height="100px" />&nbsp;<br>';
 							 echo $hotBarang[$i]['NAMA_BARANG'].'<br>'.'Rp.'.$hotBarang[$i]['HARGA_BARANG'].'
-							 </td>';
+							 </td>&nbsp &nbsp';
 						 }?>
 					</tr>
 					

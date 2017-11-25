@@ -39,11 +39,11 @@
 
 				'</td>';?>
 				<td>
-					<?php echo form_open('Barang/barang');?>
+					<?php echo form_open('Barang/updateBarang');?>
 						<?php echo form_hidden('idBarang',$barang[$i]["ID_BARANG"]);?>
 						<?php echo form_submit('btnEdit','Edit');?>
 					<?php echo form_close();?>	
-					<?php echo form_open('Barang/barang');?>
+					<?php echo form_open('Barang/deleteBarang');?>
 						<?php echo form_hidden('idBarang',$barang[$i]["ID_BARANG"]);?>
 						<?php echo form_submit('btnDelete','Delete');?>
 					<?php echo form_close();?>
@@ -52,7 +52,7 @@
 						<?php echo form_hidden('idBarang',$barang[$i]["ID_BARANG"]);?>
 						<?php echo form_submit('btnViewComment','View Comment');?>
 					<?php echo form_close();?>
-					<?php echo form_open('Barang/barang');?>
+					<?php echo form_open('Barang/toggleHotBarang');?>
 						<?php echo form_hidden('idBarang',$barang[$i]["ID_BARANG"]);?>
 						<?php echo form_hidden('hotBarang',$barang[$i]["HOT_BARANG"]);?>
 						<?php echo form_submit('btnHotToggle','Toggle Hot Item');?>
@@ -64,14 +64,6 @@
 				</table>
 				
 			</div>
-	<div class="col-sm-5">
-		<div class="dataTables_info" id="datatable_info" role="status" aria-live="polite"></div>
-	</div>
-	<div class="col-sm-7">
-		<div class="dataTables_paginate paging_simple_numbers" id="datatable_paginate">
-			<?php echo $links;?>
-		</div>
-	</div>
 	</div>
 
 </div>	
